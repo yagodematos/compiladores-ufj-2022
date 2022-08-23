@@ -1,0 +1,6 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/home/yago/Development/compiler-ufj/email_crawler'
+rm -rf cmp
+gcc -Wall -o cmp main.c util.c -lcurl
+make: Leaving directory '/home/yago/Development/compiler-ufj/email_crawler'
+ 
