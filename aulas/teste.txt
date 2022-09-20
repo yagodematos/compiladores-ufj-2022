@@ -1,0 +1,6 @@
+A = 10
+B = 20.7
+C = (A+B) / B*C
+D = A + B
+F = B - A
+print C
