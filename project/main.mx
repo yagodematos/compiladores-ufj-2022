@@ -1,0 +1,36 @@
+
+fn sum(a: int, b: int) -> int {
+    return a + b;
+}
+
+fn is_greater(a: int, b: int) -> bool {
+    return a > b ? a : b;
+}
+
+
+fn main() {
+    // * /
+    // + -
+    // && ||
+    // ++ --
+    // != ==
+
+
+    var name: string = "Yago";
+    var age: int = 25;
+
+    var tax: double = 0.4; // .4
+
+
+    print("Hello, World!"); // print
+    println("Hello, World!"); // print with new line
+
+    
+    if (expression) {
+
+    }
+
+    while (expression) {
+
+    }
+}
