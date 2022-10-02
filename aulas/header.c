@@ -32,11 +32,11 @@ const char * get_label(node *n) {
 
 
 void print_rec(FILE *f, node *root) {
-    fprintf(f, "N%d[label=\"%s\"];\n", root->id, get_label(root));
+    fprintf(f, "    N%d[label=\"%s\"];\n", root->id, get_label(root));
 
     for (int i = 0; i < root->childcount; i++) {
         print_rec(f, root->children[i]);
-        fprintf(f, "N%d -- N%d;\n", root->id, root->children[i]->id);
+        fprintf(f, "    N%d -- N%d;\n", root->id, root->children[i]->id);
     }
 }
 

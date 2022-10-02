@@ -18,7 +18,7 @@ extern int yylineno;
 
 %token TOK_PRINT
 %token <args> TOK_IDENT TOK_INTEGER TOK_FLOAT
-%token TOK_LITERAL
+/* %token TOK_LITERAL */
 
 %type <n> program stmts stmt atribuicao aritmetica term exp factor
 
