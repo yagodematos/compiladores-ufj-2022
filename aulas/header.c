@@ -12,6 +12,23 @@ node *create_node(enum node_type nt, int children) {
     return new_node;
 }
 
+const char * get_label(node *n) {
+    static char aux[100];
+    switch (n->type) {
+        case INTEGER:
+            sprintf(aux, "%d", n->intv);
+            return aux;
+        case FLOAT:
+            sprintf(aux, "%f", n->dblv);
+            return aux;
+        case IDENT:
+            return n->name;
+        default:
+            return node_type_name[n->type];
+    }
+}
+
+
 void print(node *root) {
     FILE *f = fopen("output.dot", "w");
 
@@ -28,7 +45,7 @@ void print(node *root) {
 }
 
 void print_rec(FILE *f, node *root) {
-    fprintf(f, "N%d;\n", root->id);
+    fprintf(f, "N%d[label=\"%s\"];\n", root->id, get_label(root));
 
     for (int i = 0; i < root->childcount; i++) {
         print_rec(f, root->children[i]);

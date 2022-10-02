@@ -10,14 +10,15 @@ extern int yylineno;
 %}
 
 %union {
+    token_args args;
 	struct node *n;
 }
 
 %define parse.error verbose
 
-%token TOK_PRINT TOK_IDENT
-%token TOK_INTEGER TOK_FLOAT
-/* %token TOK_LITERAL */
+%token TOK_PRINT
+%token <args> TOK_IDENT TOK_INTEGER TOK_FLOAT
+%token TOK_LITERAL
 
 %type <n> program stmts stmt atribuicao aritmetica term exp factor
 
@@ -64,7 +65,7 @@ atribuicao:
     TOK_IDENT '=' aritmetica {
         $$ = create_node(ASSIGN, 2);
         node *aux = create_node(IDENT, 0);
-        aux->name = NULL;
+        aux->name = $1.ident;
         $$->children[0] = aux;
         $$->children[1] = $3;
     }
@@ -128,15 +129,15 @@ factor:
     }
     | TOK_IDENT {
         $$ = create_node(IDENT, 0);
-        $$->name = NULL;
+        $$->name = $1.ident;
     }
     | TOK_INTEGER {
         $$ = create_node(INTEGER, 0);
-        $$->value = 0;
+        $$->intv = $1.intv;
     }
     | TOK_FLOAT {
         $$ = create_node(FLOAT, 0);
-        $$->value = 0;
+        $$->dblv = $1.dblv;
     }
     ;
 
@@ -144,6 +145,6 @@ factor:
 %%
 
 int yyerror(const char *s) {
-    printf("Erro na linha %d: %s\n", yylineno, s);
+    printf("Parser erro na linha %d: %s\n", yylineno, s);
     return 1;
 }

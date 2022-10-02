@@ -57,7 +57,8 @@ extern int yydebug;
     TOK_PRINT = 258,               /* TOK_PRINT  */
     TOK_IDENT = 259,               /* TOK_IDENT  */
     TOK_INTEGER = 260,             /* TOK_INTEGER  */
-    TOK_FLOAT = 261                /* TOK_FLOAT  */
+    TOK_FLOAT = 261,               /* TOK_FLOAT  */
+    TOK_LITERAL = 262              /* TOK_LITERAL  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -68,9 +69,10 @@ union YYSTYPE
 {
 #line 12 "calc.y"
 
+    token_args args;
 	struct node *n;
 
-#line 74 "calc.tab.h"
+#line 76 "calc.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
