@@ -1,4 +1,5 @@
 #include <stdlib.h>
+
 #include "header.h"
 
 node *create_node(enum node_type nt, int children) {
@@ -11,6 +12,7 @@ node *create_node(enum node_type nt, int children) {
 
     return new_node;
 }
+
 
 const char * get_label(node *n) {
     static char aux[100];
@@ -29,6 +31,16 @@ const char * get_label(node *n) {
 }
 
 
+void print_rec(FILE *f, node *root) {
+    fprintf(f, "N%d[label=\"%s\"];\n", root->id, get_label(root));
+
+    for (int i = 0; i < root->childcount; i++) {
+        print_rec(f, root->children[i]);
+        fprintf(f, "N%d -- N%d;\n", root->id, root->children[i]->id);
+    }
+}
+
+
 void print(node *root) {
     FILE *f = fopen("output.dot", "w");
 
@@ -42,13 +54,4 @@ void print(node *root) {
     fprintf(f, "}");
 
     fclose(f);
-}
-
-void print_rec(FILE *f, node *root) {
-    fprintf(f, "N%d[label=\"%s\"];\n", root->id, get_label(root));
-
-    for (int i = 0; i < root->childcount; i++) {
-        print_rec(f, root->children[i]);
-        fprintf(f, "N%d -- N%d;\n", root->id, root->children[i]->id);
-    }
 }
