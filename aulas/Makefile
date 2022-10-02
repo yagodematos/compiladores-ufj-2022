@@ -16,3 +16,7 @@ test: all
 
 clean:
 	rm calc calc.tab.c lex.yy.c calc.tab.h output.dot
+
+# need python3, python3-graphviz, python3-tk
+view: test
+	python3 ./generate_view.py
