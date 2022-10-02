@@ -511,9 +511,9 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    28,    28,    40,    45,    52,    56,    63,    73,    78,
-      83,    90,    95,   100,   105,   112,   117,   124,   128,   132,
-     136
+       0,    28,    28,    41,    46,    53,    57,    64,    74,    79,
+      84,    91,    96,   101,   106,   113,   118,   125,   129,   133,
+     137
 };
 #endif
 
@@ -1374,57 +1374,58 @@ yyreduce:
     {
   case 2: /* program: stmts  */
 #line 28 "calc.y"
-          { 
+          {
         node *prog = create_node(PROGRAM, 1);
         prog->children[0] = (yyvsp[0].n);
 
-
+        print(prog);
         // chamada da arvore abstrata
         // chamada da verificação semantica
         // chamada da geração de codigo
+
     }
-#line 1387 "calc.tab.c"
+#line 1388 "calc.tab.c"
     break;
 
   case 3: /* stmts: stmt stmts  */
-#line 40 "calc.y"
+#line 41 "calc.y"
                {
         (yyval.n) = create_node(STMT, 2);
         (yyval.n)->children[0] = (yyvsp[-1].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1397 "calc.tab.c"
+#line 1398 "calc.tab.c"
     break;
 
   case 4: /* stmts: stmt  */
-#line 45 "calc.y"
+#line 46 "calc.y"
            {
         (yyval.n) = create_node(STMT, 1);
         (yyval.n)->children[0] = (yyvsp[0].n);
     }
-#line 1406 "calc.tab.c"
+#line 1407 "calc.tab.c"
     break;
 
   case 5: /* stmt: atribuicao  */
-#line 52 "calc.y"
+#line 53 "calc.y"
                {
         (yyval.n) = create_node(GENERIC, 1);
         (yyval.n)->children[0] = (yyvsp[0].n);
     }
-#line 1415 "calc.tab.c"
+#line 1416 "calc.tab.c"
     break;
 
   case 6: /* stmt: TOK_PRINT aritmetica  */
-#line 56 "calc.y"
+#line 57 "calc.y"
                           {
         (yyval.n) = create_node(PRINT, 1);
         (yyval.n)->children[0] = (yyvsp[0].n);
     }
-#line 1424 "calc.tab.c"
+#line 1425 "calc.tab.c"
     break;
 
   case 7: /* atribuicao: TOK_IDENT '=' aritmetica  */
-#line 63 "calc.y"
+#line 64 "calc.y"
                              {
         (yyval.n) = create_node(ASSIGN, 2);
         node *aux = create_node(IDENT, 0);
@@ -1432,134 +1433,134 @@ yyreduce:
         (yyval.n)->children[0] = aux;
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1436 "calc.tab.c"
+#line 1437 "calc.tab.c"
     break;
 
   case 8: /* aritmetica: aritmetica '+' term  */
-#line 73 "calc.y"
+#line 74 "calc.y"
                         {
         (yyval.n) = create_node(SUM, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1446 "calc.tab.c"
+#line 1447 "calc.tab.c"
     break;
 
   case 9: /* aritmetica: aritmetica '-' term  */
-#line 78 "calc.y"
+#line 79 "calc.y"
                           {
         (yyval.n) = create_node(MINUS, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1456 "calc.tab.c"
+#line 1457 "calc.tab.c"
     break;
 
   case 10: /* aritmetica: term  */
-#line 83 "calc.y"
+#line 84 "calc.y"
            {
         (yyval.n) = create_node(GENERIC, 1);
         (yyval.n)->children[0] = (yyvsp[0].n);
     }
-#line 1465 "calc.tab.c"
+#line 1466 "calc.tab.c"
     break;
 
   case 11: /* term: term '*' exp  */
-#line 90 "calc.y"
+#line 91 "calc.y"
                  {
         (yyval.n) = create_node(MULTI, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1475 "calc.tab.c"
+#line 1476 "calc.tab.c"
     break;
 
   case 12: /* term: term '/' exp  */
-#line 95 "calc.y"
+#line 96 "calc.y"
                    {
         (yyval.n) = create_node(DIVIDE, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1485 "calc.tab.c"
+#line 1486 "calc.tab.c"
     break;
 
   case 13: /* term: term '%' exp  */
-#line 100 "calc.y"
+#line 101 "calc.y"
                    {
         (yyval.n) = create_node(MODULO, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1495 "calc.tab.c"
+#line 1496 "calc.tab.c"
     break;
 
   case 14: /* term: exp  */
-#line 105 "calc.y"
+#line 106 "calc.y"
           {
         (yyval.n) = create_node(GENERIC, 1);
         (yyval.n)->children[0] = (yyvsp[0].n);
     }
-#line 1504 "calc.tab.c"
+#line 1505 "calc.tab.c"
     break;
 
   case 15: /* exp: exp '^' factor  */
-#line 112 "calc.y"
+#line 113 "calc.y"
                    {
         (yyval.n) = create_node(POW, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1514 "calc.tab.c"
+#line 1515 "calc.tab.c"
     break;
 
   case 16: /* exp: factor  */
-#line 117 "calc.y"
+#line 118 "calc.y"
              {
         (yyval.n) = create_node(GENERIC , 1);
         (yyval.n)->children[0] = (yyvsp[0].n);
     }
-#line 1523 "calc.tab.c"
+#line 1524 "calc.tab.c"
     break;
 
   case 17: /* factor: '(' aritmetica ')'  */
-#line 124 "calc.y"
+#line 125 "calc.y"
                        {
         (yyval.n) = create_node(PAREN, 1);
         (yyval.n)->children[0] = (yyvsp[-1].n);
     }
-#line 1532 "calc.tab.c"
+#line 1533 "calc.tab.c"
     break;
 
   case 18: /* factor: TOK_IDENT  */
-#line 128 "calc.y"
+#line 129 "calc.y"
                 {
         (yyval.n) = create_node(IDENT, 1);
         (yyval.n)->name = NULL;
     }
-#line 1541 "calc.tab.c"
+#line 1542 "calc.tab.c"
     break;
 
   case 19: /* factor: TOK_INTEGER  */
-#line 132 "calc.y"
+#line 133 "calc.y"
                   {
         (yyval.n) = create_node(INTEGER, 0);
         (yyval.n)->value = 0;
     }
-#line 1550 "calc.tab.c"
+#line 1551 "calc.tab.c"
     break;
 
   case 20: /* factor: TOK_FLOAT  */
-#line 136 "calc.y"
+#line 137 "calc.y"
                 {
         (yyval.n) = create_node(FLOAT, 0);
         (yyval.n)->value = 0;
     }
-#line 1559 "calc.tab.c"
+#line 1560 "calc.tab.c"
     break;
 
 
-#line 1563 "calc.tab.c"
+#line 1564 "calc.tab.c"
 
       default: break;
     }
@@ -1784,12 +1785,10 @@ yyreturn:
   return yyresult;
 }
 
-#line 143 "calc.y"
+#line 144 "calc.y"
 
 
 int yyerror(const char *s) {
     printf("Erro na linha %d: %s\n", yylineno, s);
     return 1;
 }
-
-

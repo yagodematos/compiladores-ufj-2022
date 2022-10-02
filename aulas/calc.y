@@ -19,20 +19,21 @@ extern int yylineno;
 %token TOK_INTEGER TOK_FLOAT
 /* %token TOK_LITERAL */
 
-%type <n> program  stmts stmt atribuicao aritmetica term exp factor
+%type <n> program stmts stmt atribuicao aritmetica term exp factor
 
 %start program
 %%
 
 program:
-    stmts { 
+    stmts {
         node *prog = create_node(PROGRAM, 1);
         prog->children[0] = $1;
 
-
+        print(prog);
         // chamada da arvore abstrata
         // chamada da verificação semantica
         // chamada da geração de codigo
+
     }
     ;
 
@@ -126,7 +127,7 @@ factor:
         $$->children[0] = $2;
     }
     | TOK_IDENT {
-        $$ = create_node(IDENT, 1);
+        $$ = create_node(IDENT, 0);
         $$->name = NULL;
     }
     | TOK_INTEGER {
@@ -146,5 +147,3 @@ int yyerror(const char *s) {
     printf("Erro na linha %d: %s\n", yylineno, s);
     return 1;
 }
-
-

@@ -1,4 +1,5 @@
 #pragma once
+#include <stdio.h>
 
 enum node_type {
     PROGRAM,
@@ -31,3 +32,7 @@ struct node {
 typedef struct node node;
 
 node *create_node(enum node_type, int children);
+
+void print(node *root);
+
+void print_rec(FILE *f, node *root);
