@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
 
 #include  "header.h"
 
@@ -39,10 +40,13 @@ program:
     ;
 
 stmts:
-    stmt stmts {
-        $$ = create_node(STMT, 2);
-        $$->children[0] = $1;
-        $$->children[1] = $2;
+    stmts stmt {
+        node *n = $1;
+        n = (node *) realloc(n, sizeof(node) + sizeof(node*) * (n->childcount));
+
+        n->children[n->childcount++] = $2;
+        $$ = n;
+
     }
     | stmt {
         $$ = create_node(STMT, 1);
@@ -50,10 +54,10 @@ stmts:
     }
     ;
 
+// if (while) while function
 stmt:
     atribuicao {
-        $$ = create_node(GENERIC, 1);
-        $$->children[0] = $1;
+        $$ = $1;
     }
     |TOK_PRINT aritmetica {
         $$ = create_node(PRINT, 1);
@@ -83,8 +87,7 @@ aritmetica:
         $$->children[1] = $3;
     }
     | term {
-        $$ = create_node(GENERIC, 1);
-        $$->children[0] = $1;
+        $$ = $1;
     }
     ;
 
@@ -105,8 +108,7 @@ term:
         $$->children[1] = $3;
     }
     | exp {
-        $$ = create_node(GENERIC, 1);
-        $$->children[0] = $1;
+        $$ = $1;
     }
     ;
 
@@ -117,15 +119,13 @@ exp:
         $$->children[1] = $3;
     }
     | factor {
-        $$ = create_node(GENERIC , 1);
-        $$->children[0] = $1;
+        $$ = $1;
     }
     ;
 
 factor:
     '(' aritmetica ')' {
-        $$ = create_node(PAREN, 1);
-        $$->children[0] = $2;
+        $$ = $2;
     }
     | TOK_IDENT {
         $$ = create_node(IDENT, 0);

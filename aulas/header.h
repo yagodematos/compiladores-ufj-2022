@@ -1,4 +1,5 @@
 #pragma once
+
 #include <stdio.h>
 
 enum node_type {
@@ -8,20 +9,20 @@ enum node_type {
     MINUS,
     MULTI,
     DIVIDE,
+    MODULO,
     PRINT,
     POW,
-    FLOAT,
-    INTEGER,
     PAREN,
-    GENERIC,
-    MODULO,
     STMT,
-    IDENT
+    INTEGER,
+    FLOAT,
+    IDENT,
+    GENERIC
 };
 
 static const char * node_type_name[] = {
     "program", "=", "+", "-", "*",
-    "/", "print", "^", "()", "stmt",
+    "/", "%", "print", "^", "()", "stmt",
     "int", "float", "ident", "generic"
 };
 

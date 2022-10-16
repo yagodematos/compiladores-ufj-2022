@@ -51,7 +51,7 @@ void print(node *root) {
 
     fprintf(f, "graph G {\n");
     print_rec(f, root);
-    fprintf(f, "}");
+    fprintf(f, "}\n");
 
     fclose(f);
 }

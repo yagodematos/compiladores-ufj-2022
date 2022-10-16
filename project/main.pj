@@ -1,19 +1,26 @@
 
+fn sum a, b -> int
+fn sum a: int, b: int -> int
 fn sum(a: int, b: int) -> int
     return a + b
 end
 
 
-fn main()
+fn main -> int
 
-    var name: string = "Yago"
-    var age: int = 25
+    var name = "Yago"
+    var age = 25
 
-    var tax: double = 0.4 // .4
+    var tax = 0.4 // .4
 
 
     print("Hello, World!") // print
     println("Hello, World!") // print with new line
+
+
+    print "Hello, World!"
+    println "Hello, World!"
+
 
 
     if expression 
