@@ -1,12 +1,10 @@
 
-fn sum a, b -> int
-fn sum a: int, b: int -> int
-fn sum(a: int, b: int) -> int
+fn sum(a, b)
     return a + b
 end
 
 
-fn main -> int
+fn main()
 
     var name = "Yago"
     var age = 25
@@ -18,14 +16,9 @@ fn main -> int
     println("Hello, World!") // print with new line
 
 
-    print "Hello, World!"
-    println "Hello, World!"
+    if expression
 
-
-
-    if expression 
-
-    end 
+    end
 
 
     while expression

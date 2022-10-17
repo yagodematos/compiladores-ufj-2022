@@ -1,0 +1,5 @@
+var name = "Yago"
+
+var year = 2022
+var tax_1 = 1.4
+var tax_2 = .4
