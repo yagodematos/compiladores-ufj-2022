@@ -1,12 +1,28 @@
 var name = "Yago"
-
 var year = 2022
+
 var tax_1 = 1.4
 var tax_2 = .4
 
-var doze = 5 > 6
+var tax_total = tax_1 + tax_2
+var tax_media = tax_total / 2
+var tax_teste = (tax_1 + tax_2) / 2
+
 var foo = 8 < 5
-
 var bar = 14 >= 20 and 5 == 9
-
 var foobar = 55 <= 89 or 8 != 9
+
+if 55 <= 89
+    print year
+end
+
+if 9 > 12
+    print tax_1
+else
+    print tax_2
+end
+
+
+while tax_1 != tax_2
+    print name
+end

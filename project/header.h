@@ -29,7 +29,8 @@ enum node_type {
     EQUAL,
     GREATER_E,
     LESSER_E,
-    NOT_EQUAL
+    NOT_EQUAL,
+    WHILE
 };
 
 static const char * node_type_name[] = {
@@ -59,7 +60,8 @@ static const char * node_type_name[] = {
     "==",
     ">=",
     "<=",
-    "!="
+    "!=",
+    "while"
 };
 
 typedef struct {

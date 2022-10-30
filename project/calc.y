@@ -17,12 +17,12 @@ extern int yylineno;
 
 %define parse.error verbose
 
-%token TOK_PRINT TOK_VAR TOK_AND TOK_OR TOK_IF TOK_ELSE
+%token TOK_PRINT TOK_VAR TOK_AND TOK_OR TOK_IF TOK_ELSE TOK_WHILE TOK_END
 %token <args> TOK_IDENT TOK_INTEGER TOK_FLOAT TOK_STRING
 /* %token TOK_LITERAL */
 
 %type <n> program stmts stmt atribuicao aritmetica term exp factor
-%type <n> logical lterm lfactor
+%type <n> logical lterm lfactor if loop p
 
 %start program
 %%
@@ -62,9 +62,43 @@ stmt:
     | logical {
         $$ = $1;
     }
-    |TOK_PRINT '(' aritmetica ')' {
-        $$ = create_node(PRINT, 1);
-        $$->children[0] = $3;
+    | if {
+        $$ = $1;
+    }
+    | loop {
+        $$ = $1;
+    }
+    | p {
+        $$ = $1;
+    }
+    ;
+
+p:
+    TOK_PRINT TOK_IDENT {
+        $$ = create_node(PRINT, 0);
+    }
+    ;
+
+
+if:
+    TOK_IF logical stmts TOK_END {
+        $$ = create_node(IF, 2);
+        $$->children[0] = $2;
+        $$->children[1] = $3;
+    }
+    | TOK_IF logical stmts TOK_ELSE stmts TOK_END {
+        $$ = create_node(IF, 3);
+        $$->children[0] = $2;
+        $$->children[1] = $3;
+        $$->children[2] = $5;
+    }
+    ;
+
+loop:
+    TOK_WHILE logical stmts TOK_END {
+        $$ = create_node(WHILE, 2);
+        $$->children[0] = $2;
+        $$->children[1] = $3;
     }
     ;
 

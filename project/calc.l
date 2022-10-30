@@ -32,6 +32,8 @@ F 	("."{N})|({N}"."{N})
 
 "if"				{ return TOK_IF; }
 "else"				{ return TOK_ELSE; }
+"while"				{ return TOK_WHILE; }
+"end"				{ return TOK_END; }
 
 "("					{ return '('; }
 ")"					{ return ')'; }
