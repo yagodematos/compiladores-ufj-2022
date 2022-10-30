@@ -19,14 +19,39 @@ enum node_type {
     IDENT,
     GENERIC,
     VAR,
-    STRING
+    STRING,
+    IF,
+    ELSE,
+    OR,
+    AND,
+    GREATER,
+    LESSER
 };
 
 static const char * node_type_name[] = {
-    "program", "=", "+", "-", "*",
-    "/", "%", "print", "^", "()", "stmt",
-    "int", "float", "ident", "generic", "var",
-    "string"
+    "program",
+    "=",
+    "+",
+    "-",
+    "*",
+    "/",
+    "%",
+    "print",
+    "^",
+    "()",
+    "stmt",
+    "int",
+    "float",
+    "ident",
+    "generic",
+    "var",
+    "string",
+    "if",
+    "else",
+    "or",
+    "and",
+    ">",
+    "<"
 };
 
 typedef struct {

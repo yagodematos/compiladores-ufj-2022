@@ -17,11 +17,12 @@ extern int yylineno;
 
 %define parse.error verbose
 
-%token TOK_PRINT TOK_VAR
+%token TOK_PRINT TOK_VAR TOK_AND TOK_OR TOK_NOT TOK_IF TOK_ELSE
 %token <args> TOK_IDENT TOK_INTEGER TOK_FLOAT TOK_STRING
 /* %token TOK_LITERAL */
 
 %type <n> program stmts stmt atribuicao aritmetica term exp factor
+%type <n> logical lterm lfactor
 
 %start program
 %%
@@ -59,6 +60,9 @@ stmt:
     atribuicao {
         $$ = $1;
     }
+    | logical {
+        $$ = $1;
+    }
     |TOK_PRINT '(' aritmetica ')' {
         $$ = create_node(PRINT, 1);
         $$->children[0] = $3;
@@ -74,6 +78,45 @@ atribuicao:
         $$->children[1] = $4;
     }
     ;
+
+logical:
+    logical TOK_OR lterm {
+        $$ = create_node(OR, 2);
+        $$->children[0] = $1;
+        $$->children[1] = $3;
+    }
+    | lterm {
+        $$ = $1;
+    }
+    ;
+
+lterm:
+    lterm TOK_AND lfactor {
+        $$ = create_node(AND, 2);
+        $$->children[0] = $1;
+        $$->children[1] = $3;
+    }
+    | lfactor {
+        $$ = $1;
+    }
+    ;
+
+lfactor:
+    '(' logical ')' {
+        $$ = $2;
+    }
+    | aritmetica '>' aritmetica {
+        $$ = create_node(GREATER, 2);
+        $$->children[0] = $1;
+        $$->children[1] = $3;
+    }
+    | aritmetica '<' aritmetica {
+        $$ = create_node(LESSER, 2);
+        $$->children[0] = $1;
+        $$->children[1] = $3;
+    }
+    ;
+
 
 aritmetica:
     aritmetica '+' term {

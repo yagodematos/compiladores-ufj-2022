@@ -13,17 +13,32 @@ F 	("."{N})|({N}"."{N})
 %%
 
 [ \t\r\n]			{}
-"print"				{ return TOK_PRINT; }
-"var"				{ return TOK_VAR; }
 "="					{ return '='; }
 "^"					{ return '^'; }
 "*"					{ return '*'; }
 "/"					{ return '/'; }
 "+"					{ return '+'; }
 "-"					{ return '-'; }
+
+">"					{ return '>'; }
+"<"					{ return '>'; }
+"!"					{ return '!'; }
+
+"print"				{ return TOK_PRINT; }
+"var"				{ return TOK_VAR; }
+
+"and"				{ return TOK_AND; }
+"or"				{ return TOK_OR; }
+"not"				{ return TOK_NOT; }
+
+"if"				{ return TOK_IF; }
+"else"				{ return TOK_ELSE; }
+
 "("					{ return '('; }
 ")"					{ return ')'; }
 
+"{"					{ return '{'; }
+"}"					{ return '}'; }
 
 {D}+				{ yylval.args.intv = atoi(yytext); return TOK_INTEGER; }
 {F}					{ yylval.args.dblv = atof(yytext); return TOK_FLOAT; }
