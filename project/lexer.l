@@ -1,7 +1,7 @@
 %{
 	#include <stdio.h>
 	#include "header.h"
-	#include "calc.tab.h"
+	#include "grammar.tab.h"
 %}
 
 %option yylineno

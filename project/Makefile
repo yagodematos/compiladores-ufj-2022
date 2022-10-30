@@ -1,21 +1,24 @@
 CC=gcc
 
-all: calc
+all: pjc
 
-calc.tab.c calc.tab.h:	calc.y
-	bison -d calc.y
+grammar.tab.c grammar.tab.h: grammar.y
+	bison -d grammar.y
 
-lex.yy.c: calc.l calc.tab.h
-	flex calc.l
+lex.yy.c: lexer.l grammar.tab.h
+	flex lexer.l
 
-calc: lex.yy.c calc.tab.c calc.tab.h
-	$(CC) -o calc calc.tab.c lex.yy.c header.c
+pjc: lex.yy.c grammar.tab.c grammar.tab.h
+	$(CC) -o pjc grammar.tab.c lex.yy.c header.c
 
 test: all
-	./calc teste.txt
+	./pjc test.pj
 
 clean:
-	$(RM) calc calc.tab.c lex.yy.c calc.tab.h output.out output.dot
+	$(RM) pjc grammar.tab.c lex.yy.c grammar.tab.h output.out output.dot
+
+clean-img:
+	$(RM) *.png
 
 # need python3, python3-graphviz, python3-tk
 view: test

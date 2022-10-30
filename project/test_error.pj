@@ -1,0 +1,10 @@
+
+var name = "Yago"
+var age = 25
+
+var tax = 0.4
+
+var foo = 0.4 >= 0.5
+var bar = 10 < 20
+
+var foobar = foo or bar
