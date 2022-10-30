@@ -4,5 +4,9 @@ var year = 2022
 var tax_1 = 1.4
 var tax_2 = .4
 
-5 > 6
-8 < 5
+var doze = 5 > 6
+var foo = 8 < 5
+
+var bar = 14 >= 20 and 5 == 9
+
+var foobar = 55 <= 89 or 8 != 9

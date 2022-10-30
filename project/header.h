@@ -25,7 +25,11 @@ enum node_type {
     OR,
     AND,
     GREATER,
-    LESSER
+    LESSER,
+    EQUAL,
+    GREATER_E,
+    LESSER_E,
+    NOT_EQUAL
 };
 
 static const char * node_type_name[] = {
@@ -51,7 +55,11 @@ static const char * node_type_name[] = {
     "or",
     "and",
     ">",
-    "<"
+    "<",
+    "==",
+    ">=",
+    "<=",
+    "!="
 };
 
 typedef struct {

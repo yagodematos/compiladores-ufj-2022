@@ -29,7 +29,6 @@ F 	("."{N})|({N}"."{N})
 
 "and"				{ return TOK_AND; }
 "or"				{ return TOK_OR; }
-"not"				{ return TOK_NOT; }
 
 "if"				{ return TOK_IF; }
 "else"				{ return TOK_ELSE; }

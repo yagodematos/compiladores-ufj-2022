@@ -17,7 +17,7 @@ extern int yylineno;
 
 %define parse.error verbose
 
-%token TOK_PRINT TOK_VAR TOK_AND TOK_OR TOK_NOT TOK_IF TOK_ELSE
+%token TOK_PRINT TOK_VAR TOK_AND TOK_OR TOK_IF TOK_ELSE
 %token <args> TOK_IDENT TOK_INTEGER TOK_FLOAT TOK_STRING
 /* %token TOK_LITERAL */
 
@@ -33,7 +33,6 @@ program:
         prog->children[0] = $1;
 
         print(prog);
-        // chamada da arvore abstrata
         // chamada da verificação semantica
         // chamada da geração de codigo
 
@@ -77,6 +76,13 @@ atribuicao:
         $$->children[0] = aux;
         $$->children[1] = $4;
     }
+    | TOK_VAR TOK_IDENT '=' logical {
+        $$ = create_node(ASSIGN, 2);
+        node *aux = create_node(IDENT, 0);
+        aux->name = $2.ident;
+        $$->children[0] = aux;
+        $$->children[1] = $4;
+    }
     ;
 
 logical:
@@ -114,6 +120,26 @@ lfactor:
         $$ = create_node(LESSER, 2);
         $$->children[0] = $1;
         $$->children[1] = $3;
+    }
+    | aritmetica '=''=' aritmetica {
+        $$ = create_node(EQUAL, 2);
+        $$->children[0] = $1;
+        $$->children[1] = $4;
+    }
+    | aritmetica '>''=' aritmetica {
+        $$ = create_node(GREATER_E, 2);
+        $$->children[0] = $1;
+        $$->children[1] = $4;
+    }
+    | aritmetica '<''=' aritmetica {
+        $$ = create_node(LESSER_E, 2);
+        $$->children[0] = $1;
+        $$->children[1] = $4;
+    }
+    | aritmetica '!''=' aritmetica {
+        $$ = create_node(NOT_EQUAL, 2);
+        $$->children[0] = $1;
+        $$->children[1] = $4;
     }
     ;
 
