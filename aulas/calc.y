@@ -9,17 +9,6 @@
 int yyerror(const char *s);
 int yylex (void);
 
-typedef struct {
-    char *nome;
-    int token;
-} simbolo;
-
-int simbolo_qtd = 0;
-simbolo t_simbolos[100];
-
-simbolo *simbolo_novo(char *nome, int token);
-bool simbolo_existe(char *nome);
-void debug();
 
 extern int yylineno;
 %}
@@ -50,6 +39,7 @@ program:
 
         // chamada da arvore abstrata
         // chamada da verificação semantica
+        visitor_leaf_first(&prog, check_declared_vars);
         // chamada da geração de codigo
 
     }
@@ -170,31 +160,4 @@ factor:
 int yyerror(const char *s) {
     printf("Parser erro na linha %d: %s\n", yylineno, s);
     return 1;
-}
-
-simbolo *simbolo_novo(char *nome, int token) {
-    t_simbolos[simbolo_qtd].nome = nome;
-    t_simbolos[simbolo_qtd].token = token;
-
-    simbolo *result = &t_simbolos[simbolo_qtd];
-    simbolo_qtd++;
-
-    return result;
-}
-
-bool simbolo_existe(char *nome) {
-    for (int i = 0; i < simbolo_qtd; i++) {
-        if (strcmp(t_simbolos[i].nome, nome) == 0) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-void debug() {
-    printf("Simbolos: \n");
-    for (int i = 0; i < simbolo_qtd; i++) {
-        printf("\t%s\n", t_simbolos[i].nome);
-    }
 }

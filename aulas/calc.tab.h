@@ -66,7 +66,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 27 "calc.y"
+#line 16 "calc.y"
 
     token_args args;
 	struct node *n;

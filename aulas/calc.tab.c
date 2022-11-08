@@ -79,21 +79,10 @@
 int yyerror(const char *s);
 int yylex (void);
 
-typedef struct {
-    char *nome;
-    int token;
-} simbolo;
-
-int simbolo_qtd = 0;
-simbolo t_simbolos[100];
-
-simbolo *simbolo_novo(char *nome, int token);
-bool simbolo_existe(char *nome);
-void debug();
 
 extern int yylineno;
 
-#line 97 "calc.tab.c"
+#line 86 "calc.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -526,9 +515,9 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    44,    44,    59,    67,    75,    78,    85,    99,   104,
-     109,   115,   120,   125,   130,   136,   141,   147,   150,   157,
-     161
+       0,    33,    33,    49,    57,    65,    68,    75,    89,    94,
+      99,   105,   110,   115,   120,   126,   131,   137,   140,   147,
+     151
 };
 #endif
 
@@ -1388,7 +1377,7 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: stmts  */
-#line 44 "calc.y"
+#line 33 "calc.y"
           {
         node *prog = create_node(PROGRAM, 1);
         prog->children[0] = (yyvsp[0].n);
@@ -1398,14 +1387,15 @@ yyreduce:
 
         // chamada da arvore abstrata
         // chamada da verificação semantica
+        visitor_leaf_first(&prog, check_declared_vars);
         // chamada da geração de codigo
 
     }
-#line 1405 "calc.tab.c"
+#line 1395 "calc.tab.c"
     break;
 
   case 3: /* stmts: stmts stmt  */
-#line 59 "calc.y"
+#line 49 "calc.y"
                {
         node *n = (yyvsp[-1].n);
         n = (node *) realloc(n, sizeof(node) + sizeof(node*) * (n->childcount));
@@ -1414,37 +1404,37 @@ yyreduce:
         (yyval.n) = n;
 
     }
-#line 1418 "calc.tab.c"
+#line 1408 "calc.tab.c"
     break;
 
   case 4: /* stmts: stmt  */
-#line 67 "calc.y"
+#line 57 "calc.y"
            {
         (yyval.n) = create_node(STMT, 1);
         (yyval.n)->children[0] = (yyvsp[0].n);
     }
-#line 1427 "calc.tab.c"
+#line 1417 "calc.tab.c"
     break;
 
   case 5: /* stmt: atribuicao  */
-#line 75 "calc.y"
+#line 65 "calc.y"
                {
         (yyval.n) = (yyvsp[0].n);
     }
-#line 1435 "calc.tab.c"
+#line 1425 "calc.tab.c"
     break;
 
   case 6: /* stmt: TOK_PRINT aritmetica  */
-#line 78 "calc.y"
+#line 68 "calc.y"
                           {
         (yyval.n) = create_node(PRINT, 1);
         (yyval.n)->children[0] = (yyvsp[0].n);
     }
-#line 1444 "calc.tab.c"
+#line 1434 "calc.tab.c"
     break;
 
   case 7: /* atribuicao: TOK_IDENT '=' aritmetica  */
-#line 85 "calc.y"
+#line 75 "calc.y"
                              {
         (yyval.n) = create_node(ASSIGN, 2);
         node *aux = create_node(IDENT, 0);
@@ -1456,103 +1446,103 @@ yyreduce:
             simbolo_novo((yyvsp[-2].args).ident, TOK_IDENT);
         }
     }
-#line 1460 "calc.tab.c"
+#line 1450 "calc.tab.c"
     break;
 
   case 8: /* aritmetica: aritmetica '+' term  */
-#line 99 "calc.y"
+#line 89 "calc.y"
                         {
         (yyval.n) = create_node(SUM, 2);
+        (yyval.n)->children[0] = (yyvsp[-2].n);
+        (yyval.n)->children[1] = (yyvsp[0].n);
+    }
+#line 1460 "calc.tab.c"
+    break;
+
+  case 9: /* aritmetica: aritmetica '-' term  */
+#line 94 "calc.y"
+                          {
+        (yyval.n) = create_node(MINUS, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
 #line 1470 "calc.tab.c"
     break;
 
-  case 9: /* aritmetica: aritmetica '-' term  */
-#line 104 "calc.y"
-                          {
-        (yyval.n) = create_node(MINUS, 2);
-        (yyval.n)->children[0] = (yyvsp[-2].n);
-        (yyval.n)->children[1] = (yyvsp[0].n);
-    }
-#line 1480 "calc.tab.c"
-    break;
-
   case 10: /* aritmetica: term  */
-#line 109 "calc.y"
+#line 99 "calc.y"
            {
         (yyval.n) = (yyvsp[0].n);
+    }
+#line 1478 "calc.tab.c"
+    break;
+
+  case 11: /* term: term '*' exp  */
+#line 105 "calc.y"
+                 {
+        (yyval.n) = create_node(MULTI, 2);
+        (yyval.n)->children[0] = (yyvsp[-2].n);
+        (yyval.n)->children[1] = (yyvsp[0].n);
     }
 #line 1488 "calc.tab.c"
     break;
 
-  case 11: /* term: term '*' exp  */
-#line 115 "calc.y"
-                 {
-        (yyval.n) = create_node(MULTI, 2);
+  case 12: /* term: term '/' exp  */
+#line 110 "calc.y"
+                   {
+        (yyval.n) = create_node(DIVIDE, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
 #line 1498 "calc.tab.c"
     break;
 
-  case 12: /* term: term '/' exp  */
-#line 120 "calc.y"
+  case 13: /* term: term '%' exp  */
+#line 115 "calc.y"
                    {
-        (yyval.n) = create_node(DIVIDE, 2);
+        (yyval.n) = create_node(MODULO, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
 #line 1508 "calc.tab.c"
     break;
 
-  case 13: /* term: term '%' exp  */
-#line 125 "calc.y"
-                   {
-        (yyval.n) = create_node(MODULO, 2);
-        (yyval.n)->children[0] = (yyvsp[-2].n);
-        (yyval.n)->children[1] = (yyvsp[0].n);
-    }
-#line 1518 "calc.tab.c"
-    break;
-
   case 14: /* term: exp  */
-#line 130 "calc.y"
+#line 120 "calc.y"
           {
         (yyval.n) = (yyvsp[0].n);
     }
-#line 1526 "calc.tab.c"
+#line 1516 "calc.tab.c"
     break;
 
   case 15: /* exp: exp '^' factor  */
-#line 136 "calc.y"
+#line 126 "calc.y"
                    {
         (yyval.n) = create_node(POW, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1536 "calc.tab.c"
+#line 1526 "calc.tab.c"
     break;
 
   case 16: /* exp: factor  */
-#line 141 "calc.y"
+#line 131 "calc.y"
              {
         (yyval.n) = (yyvsp[0].n);
     }
-#line 1544 "calc.tab.c"
+#line 1534 "calc.tab.c"
     break;
 
   case 17: /* factor: '(' aritmetica ')'  */
-#line 147 "calc.y"
+#line 137 "calc.y"
                        {
         (yyval.n) = (yyvsp[-1].n);
     }
-#line 1552 "calc.tab.c"
+#line 1542 "calc.tab.c"
     break;
 
   case 18: /* factor: TOK_IDENT  */
-#line 150 "calc.y"
+#line 140 "calc.y"
                 {
         (yyval.n) = create_node(IDENT, 0);
         (yyval.n)->name = (yyvsp[0].args).ident;
@@ -1560,29 +1550,29 @@ yyreduce:
         if(!simbolo_existe((yyvsp[0].args).ident))
             simbolo_novo((yyvsp[0].args).ident, TOK_IDENT);
     }
-#line 1564 "calc.tab.c"
+#line 1554 "calc.tab.c"
     break;
 
   case 19: /* factor: TOK_INTEGER  */
-#line 157 "calc.y"
+#line 147 "calc.y"
                   {
         (yyval.n) = create_node(INTEGER, 0);
         (yyval.n)->intv = (yyvsp[0].args).intv;
     }
-#line 1573 "calc.tab.c"
+#line 1563 "calc.tab.c"
     break;
 
   case 20: /* factor: TOK_FLOAT  */
-#line 161 "calc.y"
+#line 151 "calc.y"
                 {
         (yyval.n) = create_node(FLOAT, 0);
         (yyval.n)->dblv = (yyvsp[0].args).dblv;
     }
-#line 1582 "calc.tab.c"
+#line 1572 "calc.tab.c"
     break;
 
 
-#line 1586 "calc.tab.c"
+#line 1576 "calc.tab.c"
 
       default: break;
     }
@@ -1807,37 +1797,10 @@ yyreturn:
   return yyresult;
 }
 
-#line 168 "calc.y"
+#line 158 "calc.y"
 
 
 int yyerror(const char *s) {
     printf("Parser erro na linha %d: %s\n", yylineno, s);
     return 1;
-}
-
-simbolo *simbolo_novo(char *nome, int token) {
-    t_simbolos[simbolo_qtd].nome = nome;
-    t_simbolos[simbolo_qtd].token = token;
-
-    simbolo *result = &t_simbolos[simbolo_qtd];
-    simbolo_qtd++;
-
-    return result;
-}
-
-bool simbolo_existe(char *nome) {
-    for (int i = 0; i < simbolo_qtd; i++) {
-        if (strcmp(t_simbolos[i].nome, nome) == 0) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-void debug() {
-    printf("Simbolos: \n");
-    for (int i = 0; i < simbolo_qtd; i++) {
-        printf("\t%s\n", t_simbolos[i].nome);
-    }
 }

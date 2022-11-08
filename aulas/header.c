@@ -1,6 +1,8 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "header.h"
+
 
 node *create_node(enum node_type nt, int children) {
     static int IDCOUNT = 0;
@@ -54,4 +56,65 @@ void print(node *root) {
     fprintf(f, "}\n");
 
     fclose(f);
+}
+
+int search_symbol(char *nome) {
+    for (int i = 0; i < simbolo_qtd; i++) {
+        if (strcmp(t_simbolos[i].nome, nome) == 0) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+void check_declared_vars(node **root, node *no) {
+    node *nr = *root;
+
+    if (no->type == ASSIGN) {
+        int s = search_symbol(no->children[0]->name);
+
+        if (s != -1) {
+            t_simbolos[s].exists = true;
+        }
+    }
+}
+
+void visitor_leaf_first(node **root, visitor_action action) {
+    node * r = *root;
+
+    for (int i = 0; i < r->childcount; i++) {
+        visitor_leaf_first(&r->children[i], action);
+
+        if (action) {
+            action(root, r->children[i]);
+        }
+    }
+}
+
+simbolo *simbolo_novo(char *nome, int token) {
+    t_simbolos[simbolo_qtd].nome = nome;
+    t_simbolos[simbolo_qtd].token = token;
+
+    simbolo *result = &t_simbolos[simbolo_qtd];
+    simbolo_qtd++;
+
+    return result;
+}
+
+bool simbolo_existe(char *nome) {
+    for (int i = 0; i < simbolo_qtd; i++) {
+        if (strcmp(t_simbolos[i].nome, nome) == 0) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void debug() {
+    printf("Simbolos: \n");
+    for (int i = 0; i < simbolo_qtd; i++) {
+        printf("\t%s\n", t_simbolos[i].nome);
+    }
 }

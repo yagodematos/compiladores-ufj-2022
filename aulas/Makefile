@@ -15,7 +15,7 @@ test: all
 	./calc teste.txt
 
 clean:
-	rm calc calc.tab.c lex.yy.c calc.tab.h output.dot
+	$(RM) calc calc.tab.c lex.yy.c calc.tab.h output.dot
 
 # need python3, python3-graphviz, python3-tk
 view: test
