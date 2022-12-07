@@ -1,6 +1,8 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 
 #include  "header.h"
 
@@ -33,8 +35,12 @@ program:
         prog->children[0] = $1;
 
         print(prog);
-        // chamada da verificação semantica
-        // chamada da geração de codigo
+        debug();
+
+        visitor_leaf_first(&prog, check_declared_vars);
+        visitor_leaf_first(&prog, check_ari);
+        // visitor_leaf_first(&prog, check_log);
+        visitor_leaf_first(&prog, check_division_by_zero);
 
     }
     ;
@@ -54,7 +60,6 @@ stmts:
     }
     ;
 
-// if (while) while function
 stmt:
     atribuicao {
         $$ = $1;
@@ -74,7 +79,7 @@ stmt:
     ;
 
 p:
-    TOK_PRINT TOK_IDENT {
+    TOK_PRINT '(' TOK_IDENT ')' {
         $$ = create_node(PRINT, 0);
     }
     ;
@@ -109,6 +114,10 @@ atribuicao:
         aux->name = $2.ident;
         $$->children[0] = aux;
         $$->children[1] = $4;
+
+        if(!simbolo_existe($2.ident)) {
+            simbolo_novo($2.ident, TOK_IDENT);
+        }
     }
     | TOK_VAR TOK_IDENT '=' logical {
         $$ = create_node(ASSIGN, 2);
@@ -116,6 +125,10 @@ atribuicao:
         aux->name = $2.ident;
         $$->children[0] = aux;
         $$->children[1] = $4;
+
+        if(!simbolo_existe($2.ident)) {
+            simbolo_novo($2.ident, TOK_IDENT);
+        }
     }
     ;
 

@@ -74,7 +74,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 13 "grammar.y"
+#line 15 "grammar.y"
 
     token_args args;
 	struct node *n;

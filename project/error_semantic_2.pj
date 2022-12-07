@@ -1,0 +1,5 @@
+var name = "Yago"
+var year = 2022
+
+# divisao por zero
+var div = 19 / 0

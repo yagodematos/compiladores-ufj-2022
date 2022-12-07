@@ -1,7 +1,7 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "header.h"
-#include <string.h>
 
 node *create_node(enum node_type nt, int children) {
     static int IDCOUNT = 0;
@@ -10,6 +10,7 @@ node *create_node(enum node_type nt, int children) {
     new_node->type = nt;
     new_node->childcount = children;
     new_node->id = IDCOUNT++;
+    new_node->lineno = yylineno;
 
     return new_node;
 }
@@ -59,4 +60,145 @@ void print(node *root) {
     fprintf(f, "}\n");
 
     fclose(f);
+}
+
+int search_symbol(char *nome) {
+    for (int i = 0; i < simbolo_qtd; i++) {
+        if (strcmp(t_simbolos[i].nome, nome) == 0) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+
+void check_declared_vars(node **root, node *no) {
+    node *nr = *root;
+
+    if (no->type == ASSIGN) {
+        int s = search_symbol(no->children[0]->name);
+
+        if (s != -1) {
+            t_simbolos[s].exists = true;
+        }
+    }
+    else if (no->type == IDENT) {
+        if (nr->type == ASSIGN && no == nr->children[0]) return;
+
+        int s = search_symbol(no->name);
+        if (s == -1 || !t_simbolos[s].exists) {
+            printf("%d: erro: simbolo %s não declarado.\n", no->lineno, no->name);
+            error_count++;
+        }
+    }
+}
+
+void check_ari(node **root, node *no) {
+    node *nr = *root;
+
+    if (no->type == SUM || no->type == MINUS || no->type == MULTI || no->type == DIVIDE) {
+
+        if (no->children[0]->type != no->children[1]->type) {
+            printf("%d: erro: operacao %s com operandos de tipos diferentes  \n", no->lineno, node_type_name[no->type]);
+			error_count++;
+        }
+    }
+}
+
+// void check_log(node **root, node *no) {
+//     node *nr = *root;
+
+//     if (no->type == AND || no->type == OR) {
+//         if ((no->children[0]->type == GREATER ||
+//              no->children[0]->type == LESSER ||
+//              no->children[0]->type == EQUAL ||
+//              no->children[0]->type == GREATER_E ||
+//              no->children[0]->type == LESSER_E ||
+//              no->children[0]->type == NOT_EQUAL
+//             ) &&
+//             (no->children[1]->type == GREATER ||
+//              no->children[1]->type == LESSER ||
+//              no->children[1]->type == EQUAL ||
+//              no->children[1]->type == GREATER_E ||
+//              no->children[1]->type == LESSER_E ||
+//              no->children[1]->type == NOT_EQUAL
+//             )) {
+//             printf("erro: operacao \"%s\" com operandos de tipos diferentes  \n", node_type_name[no->type]);
+// 			error_count++;
+//         }
+//     }
+// }
+
+
+void check_division_by_zero(node **root, node *no) {
+    node *nr = *root;
+
+    if (no->type == DIVIDE) {
+        if (no->children[1]->intv == 0) {
+            printf("%d: erro: operacao invalida, nao pode dividir por 0  \n", no->lineno);
+			error_count++;
+        } else if (no->children[1]->dblv == 0) {
+            printf("%d: erro: operacao invalida, nao pode dividir por 0  \n", no->lineno);
+			error_count++;
+        }
+    }
+}
+
+void code_generate(node **root, node *no) {
+
+    if (no->type == IDENT) {
+        printf("%s\n", no->name);
+    }
+    else if (no->type == ASSIGN) {
+        printf(" = ");
+    }
+    else if (no->type == INTEGER) {
+        printf(" %d ", no->intv);
+    }
+    else if (no->type == FLOAT) {
+        printf(" %f ", no->dblv);
+    }
+
+}
+
+void visitor_leaf_first(node **root, visitor_action action) {
+    node * r = *root;
+
+    for (int i = 0; i < r->childcount; i++) {
+        visitor_leaf_first(&r->children[i], action);
+
+        if (action) {
+            action(root, r->children[i]);
+        }
+    }
+}
+
+
+simbolo *simbolo_novo(char *nome, int token) {
+    t_simbolos[simbolo_qtd].nome = nome;
+    t_simbolos[simbolo_qtd].token = token;
+    t_simbolos[simbolo_qtd].exists = false;
+
+    simbolo *result = &t_simbolos[simbolo_qtd];
+    simbolo_qtd++;
+
+    return result;
+}
+
+bool simbolo_existe(char *nome) {
+    for (int i = 0; i < simbolo_qtd; i++) {
+        if (strcmp(t_simbolos[i].nome, nome) == 0) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void debug(void) {
+    printf("Simbolos: \n");
+    for (int i = 0; i < simbolo_qtd; i++) {
+        printf("\t%s\n", t_simbolos[i].nome);
+    }
 }

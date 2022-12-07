@@ -47,7 +47,7 @@ F 	("."{N})|({N}"."{N})
 \"[a-zA-Z0-9_]+\" 	{ yylval.args.strv = strndup(yytext, yyleng); return TOK_STRING; }
 
 
- /* comentário */
+"#".*   			/* comentário */
 .					{ printf("Invalid caracter: %c.\n", yytext[0]); }
 
 %%

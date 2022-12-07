@@ -71,6 +71,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 
 #include  "header.h"
 
@@ -79,7 +81,7 @@ int yylex (void);
 
 extern int yylineno;
 
-#line 83 "grammar.tab.c"
+#line 85 "grammar.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -122,9 +124,9 @@ enum yysymbol_kind_t
   YYSYMBOL_TOK_INTEGER = 12,               /* TOK_INTEGER  */
   YYSYMBOL_TOK_FLOAT = 13,                 /* TOK_FLOAT  */
   YYSYMBOL_TOK_STRING = 14,                /* TOK_STRING  */
-  YYSYMBOL_15_ = 15,                       /* '='  */
-  YYSYMBOL_16_ = 16,                       /* '('  */
-  YYSYMBOL_17_ = 17,                       /* ')'  */
+  YYSYMBOL_15_ = 15,                       /* '('  */
+  YYSYMBOL_16_ = 16,                       /* ')'  */
+  YYSYMBOL_17_ = 17,                       /* '='  */
   YYSYMBOL_18_ = 18,                       /* '>'  */
   YYSYMBOL_19_ = 19,                       /* '<'  */
   YYSYMBOL_20_ = 20,                       /* '!'  */
@@ -470,7 +472,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  30
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   146
+#define YYLAST   139
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  27
@@ -479,7 +481,7 @@ union yyalloc
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  40
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  76
+#define YYNSTATES  78
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   269
@@ -500,9 +502,9 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,    20,     2,     2,     2,    25,     2,     2,
-      16,    17,    23,    21,     2,    22,     2,    24,     2,     2,
+      15,    16,    23,    21,     2,    22,     2,    24,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      19,    15,    18,     2,     2,     2,     2,     2,     2,     2,
+      19,    17,    18,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,    26,     2,     2,     2,     2,     2,
@@ -527,13 +529,13 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,    31,    31,    43,    51,    59,    62,    65,    68,    71,
-      77,    84,    89,    98,   106,   113,   123,   128,   134,   139,
-     145,   148,   153,   158,   163,   168,   173,   182,   187,   192,
-     198,   203,   208,   213,   219,   224,   230,   233,   237,   241,
-     245
+       0,    33,    33,    49,    57,    64,    67,    70,    73,    76,
+      82,    89,    94,   103,   111,   122,   136,   141,   147,   152,
+     158,   161,   166,   171,   176,   181,   186,   195,   200,   205,
+     211,   216,   221,   226,   232,   237,   243,   246,   250,   254,
+     258
 };
 #endif
 
@@ -551,8 +553,8 @@ static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "TOK_PRINT", "TOK_VAR",
   "TOK_AND", "TOK_OR", "TOK_IF", "TOK_ELSE", "TOK_WHILE", "TOK_END",
-  "TOK_IDENT", "TOK_INTEGER", "TOK_FLOAT", "TOK_STRING", "'='", "'('",
-  "')'", "'>'", "'<'", "'!'", "'+'", "'-'", "'*'", "'/'", "'%'", "'^'",
+  "TOK_IDENT", "TOK_INTEGER", "TOK_FLOAT", "TOK_STRING", "'('", "')'",
+  "'='", "'>'", "'<'", "'!'", "'+'", "'-'", "'*'", "'/'", "'%'", "'^'",
   "$accept", "program", "stmts", "stmt", "p", "if", "loop", "atribuicao",
   "logical", "lterm", "lfactor", "aritmetica", "term", "exp", "factor", YY_NULLPTR
 };
@@ -570,12 +572,12 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 static const yytype_int16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267,   268,   269,    61,    40,    41,    62,    60,
+     265,   266,   267,   268,   269,    40,    41,    61,    62,    60,
       33,    43,    45,    42,    47,    37,    94
 };
 #endif
 
-#define YYPACT_NINF (-25)
+#define YYPACT_NINF (-20)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -587,16 +589,16 @@ static const yytype_int16 yytoknum[] =
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
-static const yytype_int16 yypact[] =
+static const yytype_int8 yypact[] =
 {
-      90,    -7,    -4,   124,   124,   -25,   -25,   -25,   -25,   124,
-      10,    90,   -25,   -25,   -25,   -25,   -25,    20,    35,   -25,
-     100,    -1,    15,   -25,   -25,    33,    48,    48,    14,    92,
-     -25,   -25,   124,   124,    38,   112,   118,    41,   130,   130,
-     130,   130,   130,   130,   124,     5,    62,   -25,   -25,    35,
-     -25,   130,   130,   130,    11,   130,    11,   130,    -1,    -1,
-      15,    15,    15,   -25,    20,   100,    90,   -25,   -25,    11,
-      11,     8,    11,    11,    76,   -25
+      89,    10,    15,   116,   116,   -20,   -20,   -20,   -20,   116,
+      31,    89,   -20,   -20,   -20,   -20,   -20,    47,    51,   -20,
+      21,     9,    32,   -20,    53,    52,    48,    48,    -4,    90,
+     -20,   -20,   116,   116,    54,   102,   109,    64,   121,   121,
+     121,   121,   121,   121,    66,   116,     6,    63,   -20,   -20,
+      51,   -20,   121,   121,   121,   -18,   121,   -18,   121,     9,
+       9,    32,    32,    32,   -20,   -20,    47,    21,    89,   -20,
+     -20,   -18,     8,   -18,   -18,   -18,    76,   -20
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -606,19 +608,19 @@ static const yytype_int8 yydefact[] =
 {
        0,     0,     0,     0,     0,    37,    38,    39,    40,     0,
        0,     2,     4,     9,     7,     8,     5,     6,    17,    19,
-       0,    29,    33,    35,    10,     0,     0,     0,     0,     0,
+       0,    29,    33,    35,     0,     0,     0,     0,     0,     0,
        1,     3,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,    20,    36,    16,
-      18,     0,     0,     0,    21,     0,    22,     0,    27,    28,
-      30,    31,    32,    34,    15,    14,     0,    11,    13,    23,
-      24,     0,    25,    26,     0,    12
+       0,     0,     0,     0,     0,     0,     0,     0,    20,    36,
+      16,    18,     0,     0,     0,    21,     0,    22,     0,    27,
+      28,    30,    31,    32,    34,    10,    15,    14,     0,    11,
+      13,    23,     0,    24,    25,    26,     0,    12
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -25,   -25,   -24,   -11,   -25,   -25,   -25,   -25,     2,    18,
-      25,    -8,    29,    -3,    27
+     -20,   -20,   -19,   -11,   -20,   -20,   -20,   -20,     2,    36,
+      61,    -8,   -16,    97,    41
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -633,54 +635,52 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      31,    29,    45,    46,    24,    26,    27,    25,     1,     2,
-      30,    28,     3,    66,     4,    67,     5,     6,     7,     8,
-      32,     9,    40,    41,    42,    48,    32,    54,    56,    38,
-      39,    47,    38,    39,    31,    31,    65,    60,    61,    62,
-      33,    43,    74,    69,    70,    71,    64,    72,    44,    73,
-      49,     1,     2,    51,    32,     3,    57,     4,    50,     5,
-       6,     7,     8,    31,     9,     1,     2,    58,    59,     3,
-      63,     4,    68,     5,     6,     7,     8,     0,     9,     1,
-       2,     0,     0,     3,     0,     4,    75,     5,     6,     7,
-       8,     0,     9,     1,     2,     0,     0,     3,     0,     4,
-       0,     5,     6,     7,     8,     0,     9,    34,     0,    48,
-      35,    36,    37,    38,    39,    34,     0,     0,    35,    36,
-      37,    38,    39,     5,     6,     7,     8,    52,    53,     5,
-       6,     7,     8,    55,    53,     5,     6,     7,     8,     0,
-       9,     5,     6,     7,     8,     0,    53
+      31,    29,    32,    38,    39,    26,    27,    46,    47,     1,
+       2,    28,    48,     3,    68,     4,    69,     5,     6,     7,
+       8,     9,    59,    60,    49,    24,    25,    55,    57,    38,
+      39,    30,    40,    41,    42,    31,    31,    67,    34,    35,
+      36,    37,    38,    39,    71,    72,    73,    66,    74,    76,
+      75,     1,     2,    32,    32,     3,    33,     4,    43,     5,
+       6,     7,     8,     9,    44,    31,     1,     2,    50,    45,
+       3,    52,     4,    70,     5,     6,     7,     8,     9,     1,
+       2,    58,    65,     3,    64,     4,    77,     5,     6,     7,
+       8,     9,     1,     2,    51,     0,     3,     0,     4,     0,
+       5,     6,     7,     8,     9,     0,    49,    34,    35,    36,
+      37,    38,    39,     5,     6,     7,     8,    53,     0,    54,
+       5,     6,     7,     8,    53,     0,    56,     5,     6,     7,
+       8,     9,     5,     6,     7,     8,    53,    61,    62,    63
 };
 
 static const yytype_int8 yycheck[] =
 {
-      11,     9,    26,    27,    11,     3,     4,    11,     3,     4,
-       0,     9,     7,     8,     9,    10,    11,    12,    13,    14,
-       6,    16,    23,    24,    25,    17,     6,    35,    36,    21,
-      22,    17,    21,    22,    45,    46,    44,    40,    41,    42,
-       5,    26,    66,    51,    52,    53,    44,    55,    15,    57,
-      32,     3,     4,    15,     6,     7,    15,     9,    33,    11,
-      12,    13,    14,    74,    16,     3,     4,    38,    39,     7,
-      43,     9,    10,    11,    12,    13,    14,    -1,    16,     3,
-       4,    -1,    -1,     7,    -1,     9,    10,    11,    12,    13,
-      14,    -1,    16,     3,     4,    -1,    -1,     7,    -1,     9,
-      -1,    11,    12,    13,    14,    -1,    16,    15,    -1,    17,
-      18,    19,    20,    21,    22,    15,    -1,    -1,    18,    19,
-      20,    21,    22,    11,    12,    13,    14,    15,    16,    11,
-      12,    13,    14,    15,    16,    11,    12,    13,    14,    -1,
-      16,    11,    12,    13,    14,    -1,    16
+      11,     9,     6,    21,    22,     3,     4,    26,    27,     3,
+       4,     9,    16,     7,     8,     9,    10,    11,    12,    13,
+      14,    15,    38,    39,    16,    15,    11,    35,    36,    21,
+      22,     0,    23,    24,    25,    46,    47,    45,    17,    18,
+      19,    20,    21,    22,    52,    53,    54,    45,    56,    68,
+      58,     3,     4,     6,     6,     7,     5,     9,    26,    11,
+      12,    13,    14,    15,    11,    76,     3,     4,    32,    17,
+       7,    17,     9,    10,    11,    12,    13,    14,    15,     3,
+       4,    17,    16,     7,    43,     9,    10,    11,    12,    13,
+      14,    15,     3,     4,    33,    -1,     7,    -1,     9,    -1,
+      11,    12,    13,    14,    15,    -1,    16,    17,    18,    19,
+      20,    21,    22,    11,    12,    13,    14,    15,    -1,    17,
+      11,    12,    13,    14,    15,    -1,    17,    11,    12,    13,
+      14,    15,    11,    12,    13,    14,    15,    40,    41,    42
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     4,     7,     9,    11,    12,    13,    14,    16,
+       0,     3,     4,     7,     9,    11,    12,    13,    14,    15,
       28,    29,    30,    31,    32,    33,    34,    35,    36,    37,
-      38,    39,    40,    41,    11,    11,    35,    35,    35,    38,
-       0,    30,     6,     5,    15,    18,    19,    20,    21,    22,
-      23,    24,    25,    26,    15,    29,    29,    17,    17,    36,
-      37,    15,    15,    16,    38,    15,    38,    15,    39,    39,
-      40,    40,    40,    41,    35,    38,     8,    10,    10,    38,
-      38,    38,    38,    38,    29,    10
+      38,    39,    40,    41,    15,    11,    35,    35,    35,    38,
+       0,    30,     6,     5,    17,    18,    19,    20,    21,    22,
+      23,    24,    25,    26,    11,    17,    29,    29,    16,    16,
+      36,    37,    17,    15,    17,    38,    17,    38,    17,    39,
+      39,    40,    40,    40,    41,    16,    35,    38,     8,    10,
+      10,    38,    38,    38,    38,    38,    29,    10
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -697,7 +697,7 @@ static const yytype_int8 yyr1[] =
 static const yytype_int8 yyr2[] =
 {
        0,     2,     1,     2,     1,     1,     1,     1,     1,     1,
-       2,     4,     6,     4,     4,     4,     3,     1,     3,     1,
+       4,     4,     6,     4,     4,     4,     3,     1,     3,     1,
        3,     3,     3,     4,     4,     4,     4,     3,     3,     1,
        3,     3,     3,     1,     3,     1,     3,     1,     1,     1,
        1
@@ -1438,21 +1438,25 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: stmts  */
-#line 31 "grammar.y"
+#line 33 "grammar.y"
           {
         node *prog = create_node(PROGRAM, 1);
         prog->children[0] = (yyvsp[0].n);
 
         print(prog);
-        // chamada da verificação semantica
-        // chamada da geração de codigo
+        debug();
+
+        visitor_leaf_first(&prog, check_declared_vars);
+        visitor_leaf_first(&prog, check_ari);
+        // visitor_leaf_first(&prog, check_log);
+        visitor_leaf_first(&prog, check_division_by_zero);
 
     }
-#line 1452 "grammar.tab.c"
+#line 1456 "grammar.tab.c"
     break;
 
   case 3: /* stmts: stmts stmt  */
-#line 43 "grammar.y"
+#line 49 "grammar.y"
                {
         node *n = (yyvsp[-1].n);
         n = (node *) realloc(n, sizeof(node) + sizeof(node*) * (n->childcount));
@@ -1461,355 +1465,363 @@ yyreduce:
         (yyval.n) = n;
 
     }
-#line 1465 "grammar.tab.c"
+#line 1469 "grammar.tab.c"
     break;
 
   case 4: /* stmts: stmt  */
-#line 51 "grammar.y"
+#line 57 "grammar.y"
            {
         (yyval.n) = create_node(STMT, 1);
         (yyval.n)->children[0] = (yyvsp[0].n);
     }
-#line 1474 "grammar.tab.c"
+#line 1478 "grammar.tab.c"
     break;
 
   case 5: /* stmt: atribuicao  */
-#line 59 "grammar.y"
+#line 64 "grammar.y"
                {
         (yyval.n) = (yyvsp[0].n);
     }
-#line 1482 "grammar.tab.c"
+#line 1486 "grammar.tab.c"
     break;
 
   case 6: /* stmt: logical  */
-#line 62 "grammar.y"
+#line 67 "grammar.y"
               {
         (yyval.n) = (yyvsp[0].n);
     }
-#line 1490 "grammar.tab.c"
+#line 1494 "grammar.tab.c"
     break;
 
   case 7: /* stmt: if  */
-#line 65 "grammar.y"
+#line 70 "grammar.y"
          {
         (yyval.n) = (yyvsp[0].n);
     }
-#line 1498 "grammar.tab.c"
+#line 1502 "grammar.tab.c"
     break;
 
   case 8: /* stmt: loop  */
-#line 68 "grammar.y"
+#line 73 "grammar.y"
            {
         (yyval.n) = (yyvsp[0].n);
     }
-#line 1506 "grammar.tab.c"
+#line 1510 "grammar.tab.c"
     break;
 
   case 9: /* stmt: p  */
-#line 71 "grammar.y"
+#line 76 "grammar.y"
         {
         (yyval.n) = (yyvsp[0].n);
     }
-#line 1514 "grammar.tab.c"
+#line 1518 "grammar.tab.c"
     break;
 
-  case 10: /* p: TOK_PRINT TOK_IDENT  */
-#line 77 "grammar.y"
-                        {
+  case 10: /* p: TOK_PRINT '(' TOK_IDENT ')'  */
+#line 82 "grammar.y"
+                                {
         (yyval.n) = create_node(PRINT, 0);
     }
-#line 1522 "grammar.tab.c"
+#line 1526 "grammar.tab.c"
     break;
 
   case 11: /* if: TOK_IF logical stmts TOK_END  */
-#line 84 "grammar.y"
+#line 89 "grammar.y"
                                  {
         (yyval.n) = create_node(IF, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[-1].n);
     }
-#line 1532 "grammar.tab.c"
+#line 1536 "grammar.tab.c"
     break;
 
   case 12: /* if: TOK_IF logical stmts TOK_ELSE stmts TOK_END  */
-#line 89 "grammar.y"
+#line 94 "grammar.y"
                                                   {
         (yyval.n) = create_node(IF, 3);
         (yyval.n)->children[0] = (yyvsp[-4].n);
         (yyval.n)->children[1] = (yyvsp[-3].n);
         (yyval.n)->children[2] = (yyvsp[-1].n);
     }
-#line 1543 "grammar.tab.c"
+#line 1547 "grammar.tab.c"
     break;
 
   case 13: /* loop: TOK_WHILE logical stmts TOK_END  */
-#line 98 "grammar.y"
+#line 103 "grammar.y"
                                     {
         (yyval.n) = create_node(WHILE, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[-1].n);
     }
-#line 1553 "grammar.tab.c"
+#line 1557 "grammar.tab.c"
     break;
 
   case 14: /* atribuicao: TOK_VAR TOK_IDENT '=' aritmetica  */
-#line 106 "grammar.y"
+#line 111 "grammar.y"
                                      {
         (yyval.n) = create_node(ASSIGN, 2);
         node *aux = create_node(IDENT, 0);
         aux->name = (yyvsp[-2].args).ident;
         (yyval.n)->children[0] = aux;
         (yyval.n)->children[1] = (yyvsp[0].n);
+
+        if(!simbolo_existe((yyvsp[-2].args).ident)) {
+            simbolo_novo((yyvsp[-2].args).ident, TOK_IDENT);
+        }
     }
-#line 1565 "grammar.tab.c"
+#line 1573 "grammar.tab.c"
     break;
 
   case 15: /* atribuicao: TOK_VAR TOK_IDENT '=' logical  */
-#line 113 "grammar.y"
+#line 122 "grammar.y"
                                     {
         (yyval.n) = create_node(ASSIGN, 2);
         node *aux = create_node(IDENT, 0);
         aux->name = (yyvsp[-2].args).ident;
         (yyval.n)->children[0] = aux;
         (yyval.n)->children[1] = (yyvsp[0].n);
+
+        if(!simbolo_existe((yyvsp[-2].args).ident)) {
+            simbolo_novo((yyvsp[-2].args).ident, TOK_IDENT);
+        }
     }
-#line 1577 "grammar.tab.c"
+#line 1589 "grammar.tab.c"
     break;
 
   case 16: /* logical: logical TOK_OR lterm  */
-#line 123 "grammar.y"
+#line 136 "grammar.y"
                          {
         (yyval.n) = create_node(OR, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1587 "grammar.tab.c"
+#line 1599 "grammar.tab.c"
     break;
 
   case 17: /* logical: lterm  */
-#line 128 "grammar.y"
+#line 141 "grammar.y"
             {
         (yyval.n) = (yyvsp[0].n);
     }
-#line 1595 "grammar.tab.c"
+#line 1607 "grammar.tab.c"
     break;
 
   case 18: /* lterm: lterm TOK_AND lfactor  */
-#line 134 "grammar.y"
+#line 147 "grammar.y"
                           {
         (yyval.n) = create_node(AND, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1605 "grammar.tab.c"
+#line 1617 "grammar.tab.c"
     break;
 
   case 19: /* lterm: lfactor  */
-#line 139 "grammar.y"
+#line 152 "grammar.y"
               {
         (yyval.n) = (yyvsp[0].n);
     }
-#line 1613 "grammar.tab.c"
+#line 1625 "grammar.tab.c"
     break;
 
   case 20: /* lfactor: '(' logical ')'  */
-#line 145 "grammar.y"
+#line 158 "grammar.y"
                     {
         (yyval.n) = (yyvsp[-1].n);
     }
-#line 1621 "grammar.tab.c"
+#line 1633 "grammar.tab.c"
     break;
 
   case 21: /* lfactor: aritmetica '>' aritmetica  */
-#line 148 "grammar.y"
+#line 161 "grammar.y"
                                 {
         (yyval.n) = create_node(GREATER, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1631 "grammar.tab.c"
+#line 1643 "grammar.tab.c"
     break;
 
   case 22: /* lfactor: aritmetica '<' aritmetica  */
-#line 153 "grammar.y"
+#line 166 "grammar.y"
                                 {
         (yyval.n) = create_node(LESSER, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1641 "grammar.tab.c"
+#line 1653 "grammar.tab.c"
     break;
 
   case 23: /* lfactor: aritmetica '=' '=' aritmetica  */
-#line 158 "grammar.y"
+#line 171 "grammar.y"
                                    {
         (yyval.n) = create_node(EQUAL, 2);
         (yyval.n)->children[0] = (yyvsp[-3].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1651 "grammar.tab.c"
+#line 1663 "grammar.tab.c"
     break;
 
   case 24: /* lfactor: aritmetica '>' '=' aritmetica  */
-#line 163 "grammar.y"
+#line 176 "grammar.y"
                                    {
         (yyval.n) = create_node(GREATER_E, 2);
         (yyval.n)->children[0] = (yyvsp[-3].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1661 "grammar.tab.c"
+#line 1673 "grammar.tab.c"
     break;
 
   case 25: /* lfactor: aritmetica '<' '=' aritmetica  */
-#line 168 "grammar.y"
+#line 181 "grammar.y"
                                    {
         (yyval.n) = create_node(LESSER_E, 2);
         (yyval.n)->children[0] = (yyvsp[-3].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1671 "grammar.tab.c"
+#line 1683 "grammar.tab.c"
     break;
 
   case 26: /* lfactor: aritmetica '!' '=' aritmetica  */
-#line 173 "grammar.y"
+#line 186 "grammar.y"
                                    {
         (yyval.n) = create_node(NOT_EQUAL, 2);
         (yyval.n)->children[0] = (yyvsp[-3].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1681 "grammar.tab.c"
+#line 1693 "grammar.tab.c"
     break;
 
   case 27: /* aritmetica: aritmetica '+' term  */
-#line 182 "grammar.y"
+#line 195 "grammar.y"
                         {
         (yyval.n) = create_node(SUM, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1691 "grammar.tab.c"
+#line 1703 "grammar.tab.c"
     break;
 
   case 28: /* aritmetica: aritmetica '-' term  */
-#line 187 "grammar.y"
+#line 200 "grammar.y"
                           {
         (yyval.n) = create_node(MINUS, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1701 "grammar.tab.c"
+#line 1713 "grammar.tab.c"
     break;
 
   case 29: /* aritmetica: term  */
-#line 192 "grammar.y"
+#line 205 "grammar.y"
            {
         (yyval.n) = (yyvsp[0].n);
     }
-#line 1709 "grammar.tab.c"
+#line 1721 "grammar.tab.c"
     break;
 
   case 30: /* term: term '*' exp  */
-#line 198 "grammar.y"
+#line 211 "grammar.y"
                  {
         (yyval.n) = create_node(MULTI, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1719 "grammar.tab.c"
+#line 1731 "grammar.tab.c"
     break;
 
   case 31: /* term: term '/' exp  */
-#line 203 "grammar.y"
+#line 216 "grammar.y"
                    {
         (yyval.n) = create_node(DIVIDE, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1729 "grammar.tab.c"
+#line 1741 "grammar.tab.c"
     break;
 
   case 32: /* term: term '%' exp  */
-#line 208 "grammar.y"
+#line 221 "grammar.y"
                    {
         (yyval.n) = create_node(MODULO, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1739 "grammar.tab.c"
+#line 1751 "grammar.tab.c"
     break;
 
   case 33: /* term: exp  */
-#line 213 "grammar.y"
+#line 226 "grammar.y"
           {
         (yyval.n) = (yyvsp[0].n);
     }
-#line 1747 "grammar.tab.c"
+#line 1759 "grammar.tab.c"
     break;
 
   case 34: /* exp: exp '^' factor  */
-#line 219 "grammar.y"
+#line 232 "grammar.y"
                    {
         (yyval.n) = create_node(POW, 2);
         (yyval.n)->children[0] = (yyvsp[-2].n);
         (yyval.n)->children[1] = (yyvsp[0].n);
     }
-#line 1757 "grammar.tab.c"
+#line 1769 "grammar.tab.c"
     break;
 
   case 35: /* exp: factor  */
-#line 224 "grammar.y"
+#line 237 "grammar.y"
              {
         (yyval.n) = (yyvsp[0].n);
     }
-#line 1765 "grammar.tab.c"
+#line 1777 "grammar.tab.c"
     break;
 
   case 36: /* factor: '(' aritmetica ')'  */
-#line 230 "grammar.y"
+#line 243 "grammar.y"
                        {
         (yyval.n) = (yyvsp[-1].n);
     }
-#line 1773 "grammar.tab.c"
+#line 1785 "grammar.tab.c"
     break;
 
   case 37: /* factor: TOK_IDENT  */
-#line 233 "grammar.y"
+#line 246 "grammar.y"
                 {
         (yyval.n) = create_node(IDENT, 0);
         (yyval.n)->name = (yyvsp[0].args).ident;
     }
-#line 1782 "grammar.tab.c"
+#line 1794 "grammar.tab.c"
     break;
 
   case 38: /* factor: TOK_INTEGER  */
-#line 237 "grammar.y"
+#line 250 "grammar.y"
                   {
         (yyval.n) = create_node(INTEGER, 0);
         (yyval.n)->intv = (yyvsp[0].args).intv;
     }
-#line 1791 "grammar.tab.c"
+#line 1803 "grammar.tab.c"
     break;
 
   case 39: /* factor: TOK_FLOAT  */
-#line 241 "grammar.y"
+#line 254 "grammar.y"
                 {
         (yyval.n) = create_node(FLOAT, 0);
         (yyval.n)->dblv = (yyvsp[0].args).dblv;
     }
-#line 1800 "grammar.tab.c"
+#line 1812 "grammar.tab.c"
     break;
 
   case 40: /* factor: TOK_STRING  */
-#line 245 "grammar.y"
+#line 258 "grammar.y"
                  {
         (yyval.n) = create_node(STRING, 0);
         (yyval.n)->strv = (yyvsp[0].args).strv;
     }
-#line 1809 "grammar.tab.c"
+#line 1821 "grammar.tab.c"
     break;
 
 
-#line 1813 "grammar.tab.c"
+#line 1825 "grammar.tab.c"
 
       default: break;
     }
@@ -2034,7 +2046,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 252 "grammar.y"
+#line 265 "grammar.y"
 
 
 int yyerror(const char *s) {

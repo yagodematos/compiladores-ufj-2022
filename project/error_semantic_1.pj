@@ -1,0 +1,5 @@
+var name = "Yago"
+var year = 2022
+
+# tipos diferentes
+var soma = 19 + 1.0
